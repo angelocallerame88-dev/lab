@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benchmark Provvigioni · Il tuo piano è in linea con il mercato?</title>
+<meta name="description" content="Simula quanto guadagni davvero a diversi livelli di quota e confrontati, in forma anonima, con chi fa il tuo stesso lavoro nelle vendite B2B in Italia.">
+<meta property="og:title" content="Il tuo piano provvigionale è in linea con il mercato?">
+<meta property="og:description" content="Simulatore e benchmark anonimo dei piani provvigionali nelle vendite B2B in Italia. 3 minuti.">
+<meta name="theme-color" content="#FFD600">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='3' y='3' width='58' height='58' rx='12' fill='%23FFD600' stroke='%230A0A0A' stroke-width='5'/><text x='32' y='44' font-size='30' text-anchor='middle' font-family='Arial' font-weight='900'>%25</text></svg>">
+<style>
+:root{--y:#FFD600;--k:#0A0A0A;--w:#fff;--g:#4B5563;--m:#F3F4F6}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--k);background:var(--w);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+h1,h2,h3{line-height:1.12;font-weight:900;letter-spacing:-.02em}
+header{border-bottom:3px solid var(--k)}header .wrap{height:60px;display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.15rem}
+header i{width:32px;height:32px;border:3px solid var(--k);background:var(--y);border-radius:8px;display:grid;place-items:center;font-style:normal}
+.btn{display:inline-flex;justify-content:center;align-items:center;background:var(--k);color:var(--y);border:3px solid var(--k);font-weight:800;font-size:1.05rem;padding:14px 24px;border-radius:12px;cursor:pointer;box-shadow:5px 5px 0 var(--y);transition:transform .1s,box-shadow .1s}
+.btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--y)}
+.btn.ghost{background:var(--w);color:var(--k);box-shadow:4px 4px 0 var(--k)}
+.btn:disabled{opacity:.5;cursor:default}
+.hero{background:var(--y);border-bottom:3px solid var(--k);padding:48px 0}
+.hero h1{font-size:clamp(2rem,6vw,3.2rem)}
+.hero p{font-size:1.12rem;margin:16px 0 24px;max-width:600px}
+.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.badges span{background:var(--w);border:2px solid var(--k);border-radius:99px;padding:5px 12px;font-weight:700;font-size:.85rem}
+main{padding:36px 0 60px}
+.card{border:3px solid var(--k);border-radius:16px;padding:24px;box-shadow:6px 6px 0 var(--k);background:var(--w);margin-bottom:26px}
+.bar{height:12px;border:2px solid var(--k);border-radius:99px;overflow:hidden;margin-bottom:20px}
+.bar div{height:100%;background:var(--y);width:25%;transition:width .3s}
+.stepname{font-weight:800;color:var(--g);font-size:.9rem;margin-bottom:4px}
+label{display:block;font-weight:700;margin:16px 0 6px}
+.hint{font-weight:500;color:var(--g);font-size:.85rem}
+input,select{width:100%;font-size:1rem;padding:12px;border:3px solid var(--k);border-radius:10px;background:#fff}
+.two{display:grid;gap:0 16px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{border:2px solid var(--k);background:var(--w);border-radius:10px;padding:9px 13px;font-weight:700;cursor:pointer;font-size:.92rem}
+.opts button.on{background:var(--k);color:var(--y)}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+.err{color:#c00;font-weight:700;margin-top:12px;display:none}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}
+.kpi{background:var(--m);border:2px solid var(--k);border-radius:12px;padding:14px}
+.kpi b{display:block;font-size:1.5rem;font-weight:900}
+.kpi span{font-size:.85rem;color:var(--g);font-weight:600}
+.chart{display:grid;gap:10px;margin-top:10px}
+.cr{display:grid;grid-template-columns:44px 1fr 84px;gap:8px;align-items:center;font-weight:800}.cr .tot{text-align:right;font-size:.9rem}
+.cr .track{background:var(--m);border-radius:8px;height:34px;position:relative;overflow:hidden;border:2px solid var(--k)}
+.cr .fill{height:100%;background:var(--k);transition:width .6s}
+.cr .fill.fx{background:var(--y);border-right:2px solid var(--k)}
+.cr.at{background:#FFF7C2;border-radius:8px}
+.legend{font-size:.85rem;color:var(--g);margin-top:8px}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:.95rem}
+td,th{border-bottom:2px solid var(--m);padding:8px 4px;text-align:left}
+th{font-size:.8rem;color:var(--g);text-transform:uppercase}
+.pro{background:var(--k);color:var(--w);border-color:var(--k);box-shadow:6px 6px 0 var(--y)}
+.pro h3{color:var(--y);font-size:1.5rem}
+.pro ul{margin:12px 0 18px 18px}
+.pro .btn{background:var(--y);color:var(--k);box-shadow:4px 4px 0 var(--w)}
+.ov{position:fixed;inset:0;background:rgba(10,10,10,.6);display:none;align-items:center;justify-content:center;z-index:20;padding:14px}
+.ov.on{display:flex}
+.sheet{background:var(--w);width:100%;max-width:500px;border:3px solid var(--k);border-radius:20px;padding:22px;max-height:94vh;overflow:auto}
+.x{float:right;background:none;border:0;font-size:1.6rem;cursor:pointer}
+.chk{display:flex;gap:10px;align-items:flex-start;font-weight:500;font-size:.9rem;margin-top:14px}
+.chk input{width:20px;height:20px;flex:none;margin-top:2px}
+.note{font-size:.85rem;color:var(--g)}
+footer{border-top:3px solid var(--k);padding:24px 0;font-size:.9rem;color:var(--g)}footer a{color:var(--k)}
+@media(min-width:700px){.two{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><i>%</i>Benchmark Provvigioni</div></header>
+
+<div class="hero" id="hero"><div class="wrap">
+ <h1>Il tuo piano provvigionale è in linea con il mercato?</h1>
+ <p>Simula quanto guadagni davvero a diversi livelli di quota e confrontati, in forma anonima, con chi fa il tuo stesso lavoro nelle vendite B2B in Italia.</p>
+ <button class="btn" id="start">Calcola in 3 minuti →</button>
+ <div class="badges"><span>🔒 Anonimo: niente nome né azienda</span><span>⏱ 3 minuti</span><span>📊 Risultato immediato</span></div>
+</div></div>
+
+<main><div class="wrap">
+
+<div class="card" id="wizard" hidden>
+ <div class="bar"><div id="prog"></div></div>
+ <form id="f" novalidate>
+  <div class="step" data-n="1">
+   <div class="stepname">1 di 4 · Il tuo ruolo</div>
+   <label>Ruolo</label>
+   <div class="opts" data-name="ruolo">
+    <button type="button">SDR/BDR</button><button type="button">Account Executive</button><button type="button">Account Manager</button><button type="button">Sales Manager</button><button type="button">Head of Sales/VP Sales</button><button type="button">Founder che vende</button>
+   </div>
+   <label>Anni di esperienza nelle vendite</label>
+   <div class="opts" data-name="esperienza"><button type="button">0-2</button><button type="button">3-5</button><button type="button">6-10</button><button type="button">10+</button></div>
+  </div>
+  <div class="step" data-n="2" hidden>
+   <div class="stepname">2 di 4 · La tua azienda</div>
+   <label>Settore</label>
+   <div class="opts" data-name="settore"><button type="button">SaaS/software</button><button type="button">Servizi IT</button><button type="button">Industria/manifattura</button><button type="button">Servizi professionali</button><button type="button">Formazione</button><button type="button">Altro</button></div>
+   <label>Dimensione (dipendenti)</label>
+   <div class="opts" data-name="dimensione"><button type="button">1-10</button><button type="button">11-50</button><button type="button">51-200</button><button type="button">201-1000</button><button type="button">1000+</button></div>
+   <label>Dove lavori</label>
+   <div class="opts" data-name="regione"><button type="button">Nord</button><button type="button">Centro</button><button type="button">Sud e isole</button><button type="button">Full remote</button></div>
+  </div>
+  <div class="step" data-n="3" hidden>
+   <div class="stepname">3 di 4 · Il tuo piano</div>
+   <div class="two">
+    <div><label for="ral">RAL fissa annua lorda (€)</label><input id="ral" type="number" inputmode="numeric" min="0" step="500" placeholder="es. 35000"></div>
+    <div><label for="variabile">Variabile annuo a target (€) <span class="hint">al 100% della quota</span></label><input id="variabile" type="number" inputmode="numeric" min="0" step="500" placeholder="es. 15000"></div>
+   </div>
+   <label>La tua quota si misura in…</label>
+   <div class="opts" data-name="tipo_quota"><button type="button">€ di fatturato/ARR</button><button type="button">Meeting/opportunità</button></div>
+   <label for="quota">Quota annua <span class="hint" id="qhint">(in €, oppure numero di meeting)</span></label><input id="quota" type="number" inputmode="numeric" min="0" placeholder="es. 400000">
+   <label>Quando ti pagano il variabile?</label>
+   <div class="opts" data-name="cadenza"><button type="button">Mensile</button><button type="button">Trimestrale</button><button type="button">Semestrale</button><button type="button">Annuale</button></div>
+  </div>
+  <div class="step" data-n="4" hidden>
+   <div class="stepname">4 di 4 · Le regole del gioco</div>
+   <label>Hai acceleratori oltre il 100% della quota?</label>
+   <div class="opts" data-name="acceleratore"><button type="button">No</button><button type="button">Sì</button></div>
+   <div id="accbox" hidden><label for="molt">Moltiplicatore oltre il 100% <span class="hint">es. 1.5 = ogni € sopra quota vale 1,5x</span></label><input id="molt" type="number" step="0.1" min="1" value="1.5"></div>
+   <label>C'è un tetto massimo al variabile?</label>
+   <div class="opts" data-name="cap"><button type="button">No</button><button type="button">Sì</button></div>
+   <div id="capbox" hidden><label for="capp">Il tetto è al … % del variabile target</label><input id="capp" type="number" min="100" step="10" value="150"></div>
+   <label for="soglia">Soglia minima di attivazione (%) <span class="hint">sotto questa % di quota non prendi variabile. Lascia vuoto se non c'è</span></label><input id="soglia" type="number" min="0" max="100" placeholder="es. 50">
+   <label>Raggiungimento quota dell'anno scorso</label>
+   <div class="opts" data-name="raggiungimento"><button type="button">&lt;50%</button><button type="button">50-79%</button><button type="button">80-99%</button><button type="button">100-119%</button><button type="button">120%+</button></div>
+   <label>Quanto sei soddisfatto del tuo piano?</label>
+   <div class="opts" data-name="soddisfazione"><button type="button">1</button><button type="button">2</button><button type="button">3</button><button type="button">4</button><button type="button">5</button></div>
+  </div>
+  <div class="err" id="err">Rispondi a tutte le domande di questo passaggio.</div>
+  <div class="nav"><button type="button" class="btn ghost" id="back" hidden>← Indietro</button><span></span><button type="button" class="btn" id="next">Avanti →</button></div>
+ </form>
+</div>
+
+<div id="result" hidden>
+ <div class="card">
+  <h2>Il tuo piano, in numeri</h2>
+  <div class="kpis">
+   <div class="kpi"><b id="k_ote"></b><span>compenso a target (OTE)</span></div>
+   <div class="kpi"><b id="k_mix"></b><span>pay mix fisso / variabile</span></div>
+   <div class="kpi"><b id="k_eff"></b><span id="k_eff_l">commissione effettiva</span></div>
+   <div class="kpi"><b id="k_cad"></b><span>cadenza del variabile</span></div>
+  </div>
+  <h3 style="margin-top:20px">Quanto porti a casa a seconda della quota</h3>
+  <div class="chart" id="chart"></div>
+  <div class="legend">■ giallo = fisso · ■ nero = variabile · compenso totale lordo annuo</div>
+ </div>
+
+ <div class="card" id="bench">
+  <h2>Come ti posizioni</h2>
+  <p id="benchtxt" class="note">Sto calcolando il confronto…</p>
+  <table id="benchtab" hidden><thead><tr><th></th><th>Tu</th><th>Mediana</th></tr></thead><tbody></tbody></table>
+ </div>
+
+ <div class="card" id="emailcard">
+  <h3>Vuoi il report completo?</h3>
+  <p class="note">Appena arriviamo a 100 risposte ti mandiamo il report con il confronto per ruolo, settore e dimensione. La tua email è salvata separata dalle tue risposte, che restano anonime.</p>
+  <form id="ef" novalidate>
+   <label for="email">Email</label><input id="email" type="email" autocomplete="email" placeholder="nome@azienda.it">
+   <label class="chk"><input type="checkbox" id="econs"> <span>Acconsento a ricevere il report via email (<a href="privacy.html" target="_blank">privacy</a>).</span></label>
+   <div class="err" id="eerr">Inserisci un'email valida e accetta l'informativa.</div>
+   <br><button class="btn" type="submit">Mandami il report</button>
+  </form>
+  <p id="eok" hidden><b>Fatto! Ti scriviamo appena il report è pronto. ✅</b></p>
+ </div>
+
+ <div class="card pro">
+  <h3>Devi progettare i piani del tuo team?</h3>
+  <p><b>Versione Pro</b> per founder, Head of Sales e RevOps:</p>
+  <ul><li>benchmark per ruolo, settore e città</li><li>simulazione del costo totale del team commerciale</li><li>modelli di piano provvigionale pronti da adattare</li></ul>
+  <p><b>29 € al mese</b></p><br>
+  <button class="btn" id="probtn">Voglio l'accesso Pro</button>
+ </div>
+</div>
+
+</div></main>
+
+<footer><div class="wrap">Benchmark Provvigioni · dati anonimi e aggregati · <a href="privacy.html">Privacy</a> <span id="contact"></span></div></footer>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="pt">
+ <div class="sheet">
+  <button class="x" id="close" aria-label="Chiudi">×</button>
+  <div id="pbox">
+   <h3 id="pt">Accesso Pro</h3>
+   <p class="note">Ti avvisiamo per primo quando apre.</p>
+   <form id="pf" novalidate>
+    <label for="pnome">Nome</label><input id="pnome" autocomplete="given-name">
+    <label for="pruolo">Ruolo</label><input id="pruolo" placeholder="es. Head of Sales">
+    <label for="pazienda">Azienda</label><input id="pazienda" autocomplete="organization">
+    <label for="pteam">Persone nel team commerciale</label>
+    <select id="pteam"><option value="">Scegli…</option><option>1-3</option><option>4-10</option><option>11-30</option><option>30+</option></select>
+    <label for="pemail">Email di lavoro</label><input id="pemail" type="email" autocomplete="email">
+    <label class="chk"><input type="checkbox" id="pcons"> <span>Acconsento a essere ricontattato per l'accesso Pro (<a href="privacy.html" target="_blank">privacy</a>).</span></label>
+    <div class="err" id="perr">Compila tutti i campi e accetta l'informativa.</div>
+    <br><button class="btn" type="submit" style="width:100%">Invia</button>
+   </form>
+  </div>
+  <div id="pok" hidden style="text-align:center">
+   <div style="font-size:3rem">🎉</div><h3>Grazie!</h3>
+   <p>La versione Pro è in costruzione: ti scriviamo per primo, e <b>il primo mese per te è gratuito</b>.</p>
+  </div>
+ </div>
+</div>
+
+<script>
+const CONFIG = {
+  ENDPOINT: "",  // URL dell'App web di Google Apps Script
+  EMAIL: ""      // email di contatto da mostrare nel footer
+};
+(function(){
+  const $=id=>document.getElementById(id);
+  const P=new URLSearchParams(location.search),UK=["utm_source","utm_medium","utm_campaign","utm_content"];
+  let utm={};try{utm=JSON.parse(sessionStorage.getItem("bp_utm")||"null")||{}}catch(e){}
+  if(!Object.keys(utm).length){UK.forEach(k=>{if(P.get(k))utm[k]=P.get(k)});try{sessionStorage.setItem("bp_utm",JSON.stringify(utm))}catch(e){}}
+  let sid;try{sid=sessionStorage.getItem("bp_sid")}catch(e){}
+  if(!sid){sid=Math.random().toString(36).slice(2,10);try{sessionStorage.setItem("bp_sid",sid)}catch(e){}}
+  function send(sheet,data){if(!CONFIG.ENDPOINT)return Promise.resolve();
+    return fetch(CONFIG.ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({sheet:sheet},data))}).catch(()=>{})}
+  const ev=(tipo,det)=>send("prov_eventi",Object.assign({tipo:tipo,dettaglio:det||"",sessione:sid},utm));
+  let first=false;try{first=!sessionStorage.getItem("bp_v");sessionStorage.setItem("bp_v","1")}catch(e){first=true}
+  if(first)ev("visita",location.pathname);
+  if(CONFIG.EMAIL){const a=document.createElement("a");a.href="mailto:"+CONFIG.EMAIL;a.textContent=" · "+CONFIG.EMAIL;$("contact").appendChild(a)}
+
+  const ans={};
+  document.querySelectorAll(".opts").forEach(g=>g.addEventListener("click",e=>{
+    const b=e.target.closest("button");if(!b)return;
+    g.querySelectorAll("button").forEach(x=>x.classList.remove("on"));b.classList.add("on");
+    ans[g.dataset.name]=b.textContent;
+    if(g.dataset.name==="acceleratore")$("accbox").hidden=b.textContent!=="Sì";
+    if(g.dataset.name==="cap")$("capbox").hidden=b.textContent!=="Sì";
+    if(g.dataset.name==="tipo_quota")$("qhint").textContent=b.textContent.startsWith("€")?"(in € di fatturato/ARR)":"(numero di meeting/opportunità all'anno)";
+  }));
+
+  let step=1;const steps=document.querySelectorAll(".step");
+  function show(){steps.forEach(s=>s.hidden=Number(s.dataset.n)!==step);$("prog").style.width=(step*25)+"%";$("back").hidden=step===1;$("next").textContent=step===4?"Vedi il risultato →":"Avanti →";$("err").style.display="none"}
+  const need={1:["ruolo","esperienza"],2:["settore","dimensione","regione"],3:["tipo_quota","cadenza"],4:["acceleratore","cap","raggiungimento","soddisfazione"]};
+  function valid(){
+    if(!need[step].every(k=>ans[k]))return false;
+    if(step===3){const r=+$("ral").value,q=+$("quota").value,v=$("variabile").value;if(!(r>0)||!(q>0)||v===""||+v<0)return false}
+    return true;
+  }
+  $("start").onclick=()=>{$("wizard").hidden=false;$("hero").querySelector("button").hidden=true;ev("avvio");show();$("wizard").scrollIntoView({behavior:"smooth"})};
+  $("back").onclick=()=>{step--;show()};
+  $("next").onclick=()=>{if(!valid()){$("err").style.display="block";return}if(step<4){step++;show();return}finish()};
+
+  const eur=n=>"€ "+Math.round(n).toLocaleString("it-IT");
+  function payout(V,a,o){
+    if(o.soglia&&a*100<o.soglia)return 0;
+    let p=V*Math.min(a,1);
+    if(a>1)p+=V*(a-1)*(o.acc?o.molt:1);
+    if(o.cap)p=Math.min(p,V*o.capp/100);
+    return p;
+  }
+  async function finish(){
+    const R=+$("ral").value,V=+$("variabile").value,Q=+$("quota").value;
+    const o={acc:ans.acceleratore==="Sì",molt:Math.max(1,+$("molt").value||1),cap:ans.cap==="Sì",capp:Math.max(100,+$("capp").value||150),soglia:$("soglia").value===""?0:Math.min(100,Math.max(0,+$("soglia").value))};
+    const row=Object.assign({},ans,{ral:R,variabile:V,quota:Q,moltiplicatore:o.acc?o.molt:"",cap_perc:o.cap?o.capp:"",soglia:$("soglia").value===""?"":o.soglia,soddisfazione:+ans.soddisfazione,utm_source:utm.utm_source||"",utm_content:utm.utm_content||""});
+    $("wizard").hidden=true;$("result").hidden=false;$("result").scrollIntoView({behavior:"smooth"});
+    const ote=R+V;
+    $("k_ote").textContent=eur(ote);
+    $("k_mix").textContent=Math.round(R/ote*100)+" / "+Math.round(V/ote*100);
+    if(ans.tipo_quota.startsWith("€")){$("k_eff").textContent=(V/Q*100).toFixed(1).replace(".",",")+"%";$("k_eff_l").textContent="commissione effettiva sulla quota"}
+    else{$("k_eff").textContent=eur(V/Q);$("k_eff_l").textContent="variabile per meeting/opportunità"}
+    $("k_cad").textContent=ans.cadenza;
+    const lv=[.5,.8,1,1.2,1.5],tots=lv.map(a=>R+payout(V,a,o)),mx=Math.max(...tots);
+    $("chart").innerHTML=lv.map((a,i)=>{const fx=R/mx*100,vr=(tots[i]-R)/mx*100;
+      return `<div class="cr${a===1?" at":""}"><span>${a*100}%</span><div class="track" style="display:flex"><div class="fill fx" style="width:${fx}%"></div><div class="fill" style="width:${vr}%"></div></div><span class="tot">${eur(tots[i])}</span></div>`}).join("");
+    await send("prov_risposte",row);
+    if(!CONFIG.ENDPOINT){$("benchtxt").textContent="Confronto non disponibile in anteprima.";return}
+    try{
+      const u=CONFIG.ENDPOINT+"?action=bench&ruolo="+encodeURIComponent(ans.ruolo)+"&dimensione="+encodeURIComponent(ans.dimensione)+"&ote="+ote;
+      const b=await (await fetch(u)).json();
+      const g=(b.ruolo_dimensione&&b.ruolo_dimensione.ral)?b.ruolo_dimensione:b.ruolo;
+      if(!g||!g.ral){$("benchtxt").innerHTML="<b>Siamo ancora pochi per il tuo ruolo</b> ("+((b.ruolo&&b.ruolo.n)||0)+" risposte finora). Lascia la tua email qui sotto: ti mandiamo il report completo quando arriviamo a 100 risposte.";return}
+      const scope=g===b.ruolo_dimensione?ans.ruolo+" in aziende "+ans.dimensione:ans.ruolo;
+      $("benchtxt").innerHTML=`Confronto con <b>${g.n}</b> risposte (${scope}). Il tuo compenso a target è sopra il <b>${g.percentile}%</b> dei colleghi.`;
+      const tb=$("benchtab").querySelector("tbody");
+      tb.innerHTML=`<tr><td>RAL fissa</td><td>${eur(R)}</td><td>${eur(g.ral)}</td></tr><tr><td>Compenso a target</td><td>${eur(ote)}</td><td>${eur(g.ote)}</td></tr><tr><td>Quota variabile</td><td>${Math.round(V/ote*100)}%</td><td>${Math.round(g.mix*100)}%</td></tr>`;
+      $("benchtab").hidden=false;
+    }catch(e){$("benchtxt").textContent="Confronto momentaneamente non disponibile. Lascia la tua email per ricevere il report."}
+  }
+
+  $("ef").addEventListener("submit",async e=>{e.preventDefault();const em=$("email").value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)||!$("econs").checked){$("eerr").style.display="block";return}
+    await send("prov_email",{email:em,consenso:"si"});$("ef").hidden=true;$("eok").hidden=false});
+
+  const ov=$("ov");
+  $("probtn").onclick=()=>{ev("pro_click");ov.classList.add("on")};
+  $("close").onclick=()=>ov.classList.remove("on");
+  ov.addEventListener("click",e=>{if(e.target===ov)ov.classList.remove("on")});
+  $("pf").addEventListener("submit",async e=>{e.preventDefault();
+    const d={nome:$("pnome").value.trim(),ruolo:$("pruolo").value.trim(),azienda:$("pazienda").value.trim(),team:$("pteam").value,email:$("pemail").value.trim(),consenso:$("pcons").checked?"si":"",utm_source:utm.utm_source||"",utm_content:utm.utm_content||""};
+    if(!d.nome||!d.ruolo||!d.azienda||!d.team||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)||!d.consenso){$("perr").style.display="block";return}
+    await send("prov_pro",d);$("pbox").hidden=true;$("pok").hidden=false});
+})();
+</script>
+</body>
+</html>

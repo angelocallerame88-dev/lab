@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Richiama · Non perdere più clienti per una chiamata mancata</title>
+<meta name="description" content="Richiama ti ricorda chi richiamare, quando, e quali lavori valgono di più. Direttamente su WhatsApp. Per idraulici, elettricisti e tecnici.">
+<meta name="theme-color" content="#FFD600">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='3' y='3' width='58' height='58' rx='12' fill='%23FFD600' stroke='%230A0A0A' stroke-width='5'/><text x='32' y='44' font-size='32' text-anchor='middle' font-family='Arial' font-weight='900'>R</text></svg>">
+<style>
+:root{--y:#FFD600;--k:#0A0A0A;--w:#fff;--g:#4B5563;--wa:#25D366}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--k);background:var(--w);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+h1,h2,h3{line-height:1.1;font-weight:900;letter-spacing:-.02em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--k);color:var(--y);border:3px solid var(--k);font-weight:800;font-size:1.1rem;padding:16px 26px;border-radius:12px;cursor:pointer;box-shadow:5px 5px 0 var(--y);transition:transform .1s,box-shadow .1s;width:100%;max-width:360px;text-decoration:none}
+.btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--y)}
+.btn.alt{background:var(--y);color:var(--k);box-shadow:5px 5px 0 var(--k)}
+header{border-bottom:3px solid var(--k);background:var(--w);position:sticky;top:0;z-index:5}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.3rem}
+.logo i{width:34px;height:34px;border:3px solid var(--k);background:var(--y);border-radius:9px;display:grid;place-items:center;font-style:normal}
+header .btn{width:auto;padding:9px 16px;font-size:.95rem;box-shadow:3px 3px 0 var(--y)}
+.hero{background:var(--y);border-bottom:3px solid var(--k);padding:44px 0 56px}
+.hero .wrap{display:grid;gap:36px;align-items:center}
+.hero h1{font-size:clamp(2.1rem,7vw,3.6rem)}
+.hero p{font-size:1.15rem;margin:18px 0 26px;max-width:520px}
+.hero small{display:block;margin-top:12px;font-weight:600}
+.phone{background:var(--w);border:3px solid var(--k);border-radius:28px;box-shadow:10px 10px 0 var(--k);max-width:330px;margin:0 auto;overflow:hidden}
+.phone .top{background:#075E54;color:#fff;padding:14px 16px;font-weight:700;display:flex;gap:10px;align-items:center}
+.phone .top b{width:30px;height:30px;border-radius:50%;background:var(--y);color:var(--k);display:grid;place-items:center}
+.chat{background:#ECE5DD;padding:14px;display:grid;gap:8px}
+.msg{background:#fff;border-radius:10px;padding:10px 12px;font-size:.9rem;box-shadow:0 1px 1px rgba(0,0,0,.15)}
+.msg h4{font-size:.95rem;margin-bottom:6px}
+.row{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-top:1px dashed #ddd}
+.row:first-of-type{border-top:0}
+.row span:last-child{font-weight:800;white-space:nowrap}
+.hot{color:#c00}
+.time{font-size:.7rem;color:var(--g);text-align:right}
+section{padding:60px 0;border-bottom:3px solid var(--k)}
+section h2{font-size:clamp(1.7rem,5vw,2.6rem);margin-bottom:26px}
+.grid{display:grid;gap:18px}
+.card{border:3px solid var(--k);border-radius:16px;padding:22px;box-shadow:6px 6px 0 var(--k);background:var(--w)}
+.card .ic{font-size:1.9rem;margin-bottom:10px}
+.card h3{font-size:1.2rem;margin-bottom:6px}
+.steps .card{background:var(--y)}
+.num{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--k);color:var(--y);font-weight:900;margin-bottom:10px}
+.price{background:var(--k);color:var(--w)}
+.price h2{color:var(--y)}
+.plan{background:var(--w);color:var(--k);border:3px solid var(--y);border-radius:20px;padding:28px;max-width:420px;box-shadow:8px 8px 0 var(--y)}
+.plan .amt{font-size:3.2rem;font-weight:900}
+.plan ul{list-style:none;margin:16px 0 22px;display:grid;gap:8px}
+.plan li::before{content:"✔ ";font-weight:900}
+details{border:3px solid var(--k);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+summary{font-weight:800;cursor:pointer}
+details p{margin-top:10px;color:#222}
+footer{padding:30px 0;font-size:.9rem;color:var(--g)}
+footer a{color:var(--k)}
+/* modale */
+.ov{position:fixed;inset:0;background:rgba(10,10,10,.6);display:none;align-items:flex-end;justify-content:center;z-index:20}
+.ov.on{display:flex}
+.sheet{background:var(--w);width:100%;max-width:520px;border:3px solid var(--k);border-radius:22px 22px 0 0;padding:24px 20px 28px;max-height:92vh;overflow:auto}
+.sheet h3{font-size:1.5rem;margin-bottom:4px}
+.sheet .x{float:right;background:none;border:0;font-size:1.6rem;cursor:pointer}
+label{display:block;font-weight:700;margin:14px 0 6px}
+input,select{width:100%;font-size:1rem;padding:13px 12px;border:3px solid var(--k);border-radius:10px;background:#fff}
+.chk{display:flex;gap:10px;align-items:flex-start;font-weight:500;font-size:.9rem}
+.chk input{width:22px;height:22px;flex:none;margin-top:2px}
+.err{color:#c00;font-weight:700;margin-top:10px;display:none}
+.ok{text-align:center;padding:10px 0}
+.ok .big{font-size:3rem}
+@media(min-width:820px){
+ .ov{align-items:center}.sheet{border-radius:22px}
+ .hero .wrap{grid-template-columns:1.2fr .8fr}
+ .grid.three{grid-template-columns:repeat(3,1fr)}
+ .btn{width:auto}
+}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="logo"><i>📞</i>Richiama</div><button class="btn cta" data-cta="header">Provalo gratis</button></div></header>
+
+<div class="hero"><div class="wrap">
+ <div>
+  <h1>Quanti lavori perdi perché non hai richiamato?</h1>
+  <p>Richiama ti ricorda <b>chi richiamare, quando</b>, e <b>quali lavori valgono di più</b>. Direttamente su WhatsApp, senza app da imparare.</p>
+  <button class="btn cta" data-cta="hero">Provalo gratis →</button>
+  <small>14 giorni gratis · niente carta di credito</small>
+ </div>
+ <div class="phone" aria-hidden="true">
+  <div class="top"><b>R</b>Richiama</div>
+  <div class="chat">
+   <div class="msg"><h4>☀️ Buongiorno! Da richiamare oggi:</h4>
+    <div class="row"><span>🔥 Mario R. · preventivo caldaia</span><span class="hot">€ 1.200</span></div>
+    <div class="row"><span>Sig. Ferri · lavoro da confermare</span><span>€ 800</span></div>
+    <div class="row"><span>Giulia B. · ti ha chiamato 2 volte</span><span>€ 350</span></div>
+    <div class="time">07:30 ✓✓</div>
+   </div>
+   <div class="msg">👉 Inizia da Mario: il preventivo è fermo da 4 giorni.<div class="time">07:30 ✓✓</div></div>
+  </div>
+ </div>
+</div></div>
+
+<section><div class="wrap">
+ <h2>Succede a tutti, ogni settimana</h2>
+ <div class="grid three">
+  <div class="card"><div class="ic">📵</div><h3>Chiamate perse sul lavoro</h3><p>Sei sotto un lavandino o su una scala. Il telefono squilla, non rispondi, e poi te ne dimentichi.</p></div>
+  <div class="card"><div class="ic">📝</div><h3>Preventivi dimenticati</h3><p>Mandi il preventivo e poi nessuno si fa sentire. Né tu, né il cliente.</p></div>
+  <div class="card"><div class="ic">🏃</div><h3>Clienti che vanno da un altro</h3><p>Chi non riceve risposta in giornata chiama il prossimo sulla lista.</p></div>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Come funziona</h2>
+ <div class="grid three steps">
+  <div class="card"><div class="num">1</div><h3>Colleghi WhatsApp</h3><p>Due minuti, una volta sola. Continui a usare il telefono come sempre.</p></div>
+  <div class="card"><div class="num">2</div><h3>Richiama prende nota</h3><p>Segna chi ti ha cercato, chi aspetta un preventivo e chi deve confermarti un lavoro.</p></div>
+  <div class="card"><div class="num">3</div><h3>Ogni mattina la tua lista</h3><p>Ricevi chi richiamare, in ordine di valore. Inizi dai lavori che contano.</p></div>
+ </div>
+</div></section>
+
+<section class="price"><div class="wrap">
+ <h2>Un solo piano, semplice</h2>
+ <div class="plan">
+  <div><span class="amt">19 €</span> al mese</div>
+  <ul><li>14 giorni gratis</li><li>Promemoria ogni mattina su WhatsApp</li><li>Lavori ordinati per valore</li><li>Disdici quando vuoi</li></ul>
+  <button class="btn cta" data-cta="prezzo">Attiva la prova gratuita</button>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Domande</h2>
+ <details><summary>Devo scaricare un'app?</summary><p>No. Richiama ti scrive su WhatsApp, quello che usi già tutti i giorni.</p></details>
+ <details><summary>I miei dati e quelli dei clienti?</summary><p>Restano tuoi. Non li vendiamo e non li usiamo per pubblicità.</p></details>
+ <details><summary>Posso disdire?</summary><p>Sì, quando vuoi, senza vincoli e senza penali.</p></details>
+ <details><summary>Funziona anche se lavoro con un socio o un dipendente?</summary><p>È proprio il caso in cui serve di più: nessuna chiamata resta nel limbo.</p></details>
+</div></section>
+
+<footer><div class="wrap">© Richiama · <a href="privacy.html">Privacy</a> · <span id="contact"></span></div></footer>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ft">
+ <div class="sheet">
+  <button class="x" id="close" aria-label="Chiudi">×</button>
+  <div id="formbox">
+   <h3 id="ft">Prova Richiama gratis</h3>
+   <p>Lasciaci due dati: ti attiviamo su WhatsApp.</p>
+   <form id="f" novalidate>
+    <label for="nome">Nome</label><input id="nome" name="nome" autocomplete="given-name" required>
+    <label for="mestiere">Mestiere</label>
+    <select id="mestiere" name="mestiere" required><option value="">Scegli…</option><option>Idraulico</option><option>Termoidraulico</option><option>Elettricista</option><option>Tecnico allarmi/caldaie</option><option>Altro</option></select>
+    <label for="citta">Città</label><input id="citta" name="citta" autocomplete="address-level2" required>
+    <label for="whatsapp">Numero WhatsApp</label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required>
+    <label for="perse">Quante chiamate o richieste ti perdi a settimana?</label>
+    <select id="perse" name="chiamate_perse" required><option value="">Scegli…</option><option>0-2</option><option>3-5</option><option>6-10</option><option>Più di 10</option></select>
+    <label class="chk"><input type="checkbox" id="consenso" required> <span>Ho letto l'<a href="privacy.html" target="_blank">informativa privacy</a> e acconsento a essere contattato su WhatsApp per l'attivazione.</span></label>
+    <div class="err" id="err">Compila tutti i campi e accetta l'informativa.</div>
+    <br><button class="btn" type="submit" id="send" style="max-width:none;width:100%">Invia</button>
+   </form>
+  </div>
+  <div id="okbox" class="ok" hidden>
+   <div class="big">🎉</div>
+   <h3>Grazie!</h3>
+   <p>Richiama è in apertura: stiamo attivando i primi artigiani a gruppi. Ti scriviamo su WhatsApp appena tocca a te.<br><b>Per i primi 50 il primo mese è a metà prezzo.</b></p>
+  </div>
+ </div>
+</div>
+
+<script>
+const CONFIG = {
+  ENDPOINT: "",      // URL dell'App web di Google Apps Script
+  PIXEL_ID: "",      // ID del Meta Pixel
+  EMAIL: ""          // email di contatto da mostrare nel footer
+};
+(function(){
+  const SHEET_EV="richiama_eventi", SHEET_LEAD="richiama_lead";
+  const P=new URLSearchParams(location.search), UK=["utm_source","utm_medium","utm_campaign","utm_content"];
+  let utm={}; try{utm=JSON.parse(sessionStorage.getItem("rk_utm")||"null")||{}}catch(e){}
+  if(!Object.keys(utm).length){UK.forEach(k=>{if(P.get(k))utm[k]=P.get(k)});try{sessionStorage.setItem("rk_utm",JSON.stringify(utm))}catch(e){}}
+  let sid; try{sid=sessionStorage.getItem("rk_sid")}catch(e){}
+  if(!sid){sid=Math.random().toString(36).slice(2,10);try{sessionStorage.setItem("rk_sid",sid)}catch(e){}}
+  function send(sheet,data){ if(!CONFIG.ENDPOINT) return Promise.resolve();
+    return fetch(CONFIG.ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({sheet:sheet,sessione:sid},utm,data))}).catch(()=>{});}
+  function ev(tipo,dettaglio){return send(SHEET_EV,{tipo:tipo,dettaglio:dettaglio||""})}
+  let first=false; try{first=!sessionStorage.getItem("rk_v");sessionStorage.setItem("rk_v","1")}catch(e){first=true}
+  if(first) ev("visita",location.pathname);
+  if(CONFIG.EMAIL){const a=document.createElement("a");a.href="mailto:"+CONFIG.EMAIL;a.textContent=CONFIG.EMAIL;document.getElementById("contact").appendChild(a)}
+  if(CONFIG.PIXEL_ID){!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init',CONFIG.PIXEL_ID);fbq('track','PageView');}
+  const ov=document.getElementById("ov");
+  let opened=false;
+  document.querySelectorAll(".cta").forEach(b=>b.addEventListener("click",()=>{ev("cta",b.dataset.cta);if(!opened){ev("modulo_aperto",b.dataset.cta);opened=true}ov.classList.add("on")}));
+  document.getElementById("close").onclick=()=>ov.classList.remove("on");
+  ov.addEventListener("click",e=>{if(e.target===ov)ov.classList.remove("on")});
+  document.getElementById("f").addEventListener("submit",async e=>{
+    e.preventDefault();
+    const f=e.target, err=document.getElementById("err");
+    const d={nome:f.nome.value.trim(),mestiere:f.mestiere.value,citta:f.citta.value.trim(),whatsapp:f.whatsapp.value.trim(),chiamate_perse:f.chiamate_perse.value,consenso:document.getElementById("consenso").checked?"si":""};
+    if(!d.nome||!d.mestiere||!d.citta||d.whatsapp.replace(/\D/g,"").length<8||!d.chiamate_perse||!d.consenso){err.style.display="block";return}
+    err.style.display="none";const btn=document.getElementById("send");btn.disabled=true;btn.textContent="Invio…";
+    await send(SHEET_LEAD,d);
+    if(window.fbq) fbq('track','Lead');
+    document.getElementById("formbox").hidden=true;document.getElementById("okbox").hidden=false;
+  });
+})();
+</script>
+</body>
+</html>
