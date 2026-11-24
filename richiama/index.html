@@ -85,7 +85,7 @@ input,select{width:100%;font-size:1rem;padding:13px 12px;border:3px solid var(--
   <h1>Quanti lavori perdi perché non hai richiamato?</h1>
   <p>Richiama ti ricorda <b>chi richiamare, quando</b>, e <b>quali lavori valgono di più</b>. Direttamente su WhatsApp, senza app da imparare.</p>
   <button class="btn cta" data-cta="hero">Provalo gratis →</button>
-  <small>14 giorni gratis · niente carta di credito</small>
+  <small>14 giorni gratis · disdici quando vuoi</small>
  </div>
  <div class="phone" aria-hidden="true">
   <div class="top"><b>R</b>Richiama</div>
@@ -141,65 +141,33 @@ input,select{width:100%;font-size:1rem;padding:13px 12px;border:3px solid var(--
 <div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ft">
  <div class="sheet">
   <button class="x" id="close" aria-label="Chiudi">×</button>
-  <div id="formbox">
-   <h3 id="ft">Prova Richiama gratis</h3>
-   <p>Lasciaci due dati: ti attiviamo su WhatsApp.</p>
-   <form id="f" novalidate>
-    <label for="nome">Nome</label><input id="nome" name="nome" autocomplete="given-name" required>
-    <label for="mestiere">Mestiere</label>
-    <select id="mestiere" name="mestiere" required><option value="">Scegli…</option><option>Idraulico</option><option>Termoidraulico</option><option>Elettricista</option><option>Tecnico allarmi/caldaie</option><option>Altro</option></select>
-    <label for="citta">Città</label><input id="citta" name="citta" autocomplete="address-level2" required>
-    <label for="whatsapp">Numero WhatsApp</label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" required>
-    <label for="perse">Quante chiamate o richieste ti perdi a settimana?</label>
-    <select id="perse" name="chiamate_perse" required><option value="">Scegli…</option><option>0-2</option><option>3-5</option><option>6-10</option><option>Più di 10</option></select>
-    <label class="chk"><input type="checkbox" id="consenso" required> <span>Ho letto l'<a href="privacy.html" target="_blank">informativa privacy</a> e acconsento a essere contattato su WhatsApp per l'attivazione.</span></label>
-    <div class="err" id="err">Compila tutti i campi e accetta l'informativa.</div>
-    <br><button class="btn" type="submit" id="send" style="max-width:none;width:100%">Invia</button>
-   </form>
-  </div>
-  <div id="okbox" class="ok" hidden>
-   <div class="big">🎉</div>
-   <h3>Grazie!</h3>
-   <p>Richiama è in apertura: stiamo attivando i primi artigiani a gruppi. Ti scriviamo su WhatsApp appena tocca a te.<br><b>Per i primi 50 il primo mese è a metà prezzo.</b></p>
+  <div class="ok">
+   <div class="big">🚧</div>
+   <h3 id="ft">Richiama è in apertura</h3>
+   <p>Stiamo costruendo il servizio proprio adesso. Grazie per l'interesse: il tuo click ci dice che serve davvero!</p>
+   <br><button class="btn" id="close2" style="max-width:none;width:100%">Ok, grazie</button>
   </div>
  </div>
 </div>
 
 <script>
 const CONFIG = {
-  ENDPOINT: "https://script.google.com/macros/s/AKfycbzPjJv38EDLXxMfC3OovxGj1p7QL_uS49XvcLjjb--T7v6-9loIOwqus47TzbiXRiVruQ/exec",      // URL dell'App web di Google Apps Script
-  PIXEL_ID: "",      // ID del Meta Pixel
-  EMAIL: ""          // email di contatto da mostrare nel footer
+  ENDPOINT: "https://script.google.com/macros/s/AKfycbzPjJv38EDLXxMfC3OovxGj1p7QL_uS49XvcLjjb--T7v6-9loIOwqus47TzbiXRiVruQ/exec",
+  EMAIL: ""   // email di contatto (facoltativa)
 };
 (function(){
-  const SHEET_EV="richiama_eventi", SHEET_LEAD="richiama_lead";
-  const P=new URLSearchParams(location.search), UK=["utm_source","utm_medium","utm_campaign","utm_content"];
-  let utm={}; try{utm=JSON.parse(sessionStorage.getItem("rk_utm")||"null")||{}}catch(e){}
-  if(!Object.keys(utm).length){UK.forEach(k=>{if(P.get(k))utm[k]=P.get(k)});try{sessionStorage.setItem("rk_utm",JSON.stringify(utm))}catch(e){}}
-  let sid; try{sid=sessionStorage.getItem("rk_sid")}catch(e){}
-  if(!sid){sid=Math.random().toString(36).slice(2,10);try{sessionStorage.setItem("rk_sid",sid)}catch(e){}}
-  function send(sheet,data){ if(!CONFIG.ENDPOINT) return Promise.resolve();
-    return fetch(CONFIG.ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({sheet:sheet,sessione:sid},utm,data))}).catch(()=>{});}
-  function ev(tipo,dettaglio){return send(SHEET_EV,{tipo:tipo,dettaglio:dettaglio||""})}
-  let first=false; try{first=!sessionStorage.getItem("rk_v");sessionStorage.setItem("rk_v","1")}catch(e){first=true}
-  if(first) ev("visita",location.pathname);
+  // Misurazione anonima: nessun cookie, nessun dato salvato sul dispositivo, nessun dato personale.
+  const P=new URLSearchParams(location.search),utm={};
+  ["utm_source","utm_medium","utm_campaign","utm_content"].forEach(k=>{if(P.get(k))utm[k]=P.get(k).slice(0,60)});
+  function ev(tipo,det){if(!CONFIG.ENDPOINT)return;
+    fetch(CONFIG.ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({sheet:"richiama_eventi",tipo:tipo,dettaglio:det||""},utm))}).catch(()=>{})}
+  ev("visita");
   if(CONFIG.EMAIL){const a=document.createElement("a");a.href="mailto:"+CONFIG.EMAIL;a.textContent=CONFIG.EMAIL;document.getElementById("contact").appendChild(a)}
-  if(CONFIG.PIXEL_ID){!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init',CONFIG.PIXEL_ID);fbq('track','PageView');}
-  const ov=document.getElementById("ov");
-  let opened=false;
-  document.querySelectorAll(".cta").forEach(b=>b.addEventListener("click",()=>{ev("cta",b.dataset.cta);if(!opened){ev("modulo_aperto",b.dataset.cta);opened=true}ov.classList.add("on")}));
-  document.getElementById("close").onclick=()=>ov.classList.remove("on");
-  ov.addEventListener("click",e=>{if(e.target===ov)ov.classList.remove("on")});
-  document.getElementById("f").addEventListener("submit",async e=>{
-    e.preventDefault();
-    const f=e.target, err=document.getElementById("err");
-    const d={nome:f.nome.value.trim(),mestiere:f.mestiere.value,citta:f.citta.value.trim(),whatsapp:f.whatsapp.value.trim(),chiamate_perse:f.chiamate_perse.value,consenso:document.getElementById("consenso").checked?"si":""};
-    if(!d.nome||!d.mestiere||!d.citta||d.whatsapp.replace(/\D/g,"").length<8||!d.chiamate_perse||!d.consenso){err.style.display="block";return}
-    err.style.display="none";const btn=document.getElementById("send");btn.disabled=true;btn.textContent="Invio…";
-    await send(SHEET_LEAD,d);
-    if(window.fbq) fbq('track','Lead');
-    document.getElementById("formbox").hidden=true;document.getElementById("okbox").hidden=false;
-  });
+  const ov=document.getElementById("ov");let clicked=false;
+  document.querySelectorAll(".cta").forEach(b=>b.addEventListener("click",()=>{ev("cta",b.dataset.cta);if(!clicked){ev("interesse",b.dataset.cta);clicked=true}ov.classList.add("on")}));
+  const close=()=>ov.classList.remove("on");
+  document.getElementById("close").onclick=close;document.getElementById("close2").onclick=close;
+  ov.addEventListener("click",e=>{if(e.target===ov)close()});
 })();
 </script>
 </body>
